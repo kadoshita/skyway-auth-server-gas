@@ -5,12 +5,9 @@ declare var global: any;
 global.doGet = (e: GoogleAppsScript.Events.DoGet) => {
     const res = ContentService.createTextOutput();
     res.setMimeType(ContentService.MimeType.JSON);
-    const { roomName } = e.parameter;
-    const { memberName } = e.parameter;
-    if (roomName === undefined || memberName === undefined || roomName === '' || memberName === '') {
-        res.setContent(JSON.stringify({ error: 'roomName or memberName is empty.' }));
-        return res;
-    }
+    const roomName = e.parameter.roomName || '*';
+    const memberName = e.parameter.memberName || '*';
+
     const ps = PropertiesService.getScriptProperties();
     const appId = ps.getProperty('SKYWAY_APP_ID');
     const secretKey = ps.getProperty('SKYWAY_SECRET_KEY');
